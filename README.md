@@ -14,7 +14,7 @@ Welcome to **Magical Arena**, an epic player-vs-player battle simulator where wa
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/magical-arena.git
+git clone https://github.com/sammedsc45/MagicalArena.git
 cd magical-arena
 ```
 
