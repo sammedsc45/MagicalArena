@@ -20,6 +20,10 @@ public class Arena {
     }
 
     public void playMatch() {
+        if (playerA == null || playerB == null) {
+            throw new IllegalStateException("Players must be initialized before starting the match.");
+        }
+
         System.out.println("\n=== Match starts between " + playerA.getName() +
                 " and " + playerB.getName() + "! ===\n");
 
@@ -79,10 +83,10 @@ public class Arena {
     private void monitorInactivity() {
         while (gameRunning) {
             try {
-                Thread.sleep(1); // Check every milliseconds
+                Thread.sleep(1); // Check every millisecond
                 long currentTime = System.currentTimeMillis();
 
-                // If no action for 1 seconds, alert the players
+                // If no action for 1 second, alert the players
                 if (currentTime - lastActionTime > 1000) {
                     System.out.println("\n⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️");
                     lastActionTime = currentTime; // Prevent spamming the message
@@ -115,11 +119,20 @@ public class Arena {
         System.out.println("=====================\n");
     }
 
-    void declareWinner() {
+    public void declareWinner() {
         Player winner = playerA.isAlive() ? playerA : playerB;
         String winnerMessage = "\n=== " + winner.getName() + " emerges victorious! ===\n" +
                 "The arena erupts with cheers as " + winner.getName() +
                 " claims eternal glory! ⚔️✨";
         System.out.println(winnerMessage);
+    }
+
+    // New methods for testability
+    public Player getPlayerA() {
+        return playerA;
+    }
+
+    public Player getPlayerB() {
+        return playerB;
     }
 }
