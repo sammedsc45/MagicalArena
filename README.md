@@ -38,25 +38,138 @@ java com.magicalarena.Main
 ## 🎮 Gameplay Example
 
 ```plaintext
-=== Match starts between Warrior and Mage! ===
+*** Welcome to Magical Arena ***
+
+Enter Player 1 name:
+Sammed
+Creating Sammed with stats: Health=100, Strength=5, Attack=10
+
+Enter Player 2 name:
+Param
+Creating Param with stats: Health=100, Strength=5, Attack=10
+
+Press Enter to start the battle!
+
+
+=== Match starts between Sammed and Param! ===
+
 Player 1: Press 's' to attack!
 Player 2: Press 'k' to attack!
 
 ⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+s
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
 
-Warrior attacks Mage for 20 damage!
-Mage has 60 health remaining.
+Sammed attacks Param for 20 damage!
+Param has 80 health remaining.
 
 === Current Stats ===
-Warrior - Health: 100
-Mage - Health: 60
+Sammed - Health: 100
+Param - Health: 80
 =====================
 
-Mage attacks Warrior for 15 damage!
-Warrior has 85 health remaining.
+k
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
 
-=== Warrior emerges victorious! ===
-The arena erupts with cheers as Warrior claims eternal glory! ⚔️✨
+Param attacks Sammed for 15 damage!
+Sammed has 85 health remaining.
+
+=== Current Stats ===
+Sammed - Health: 85
+Param - Health: 80
+=====================
+
+s
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+
+Sammed attacks Param for 20 damage!
+Param has 60 health remaining.
+
+=== Current Stats ===
+Sammed - Health: 85
+Param - Health: 60
+=====================
+
+s
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+k
+Sammed attacks Param for 10 damage!
+Param has 50 health remaining.
+
+=== Current Stats ===
+Sammed - Health: 85
+Param - Health: 50
+=====================
+
+
+Param attacks Sammed for 45 damage!
+Sammed has 40 health remaining.
+
+=== Current Stats ===
+Sammed - Health: 40
+Param - Health: 50
+=====================
+
+s
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+
+Sammed attacks Param for 0 damage!
+Param has 50 health remaining.
+
+=== Current Stats ===
+Sammed - Health: 40
+Param - Health: 50
+=====================
+
+k
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+k
+Param attacks Sammed for 5 damage!
+Sammed has 35 health remaining.
+
+=== Current Stats ===
+Sammed - Health: 35
+Param - Health: 50
+=====================
+
+
+Param attacks Sammed for 20 damage!
+Sammed has 15 health remaining.
+
+=== Current Stats ===
+Sammed - Health: 15
+Param - Health: 50
+=====================
+
+
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+s
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+
+Sammed attacks Param for 0 damage!
+Param has 50 health remaining.
+
+=== Current Stats ===
+Sammed - Health: 15
+Param - Health: 50
+=====================
+
+k
+⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️
+
+Param attacks Sammed for 15 damage!
+Sammed has fallen!
+
+=== Current Stats ===
+Sammed - Health: 0
+Param - Health: 50
+=====================
+
+
+=== Param emerges victorious! ===
+The arena erupts with cheers as Param claims eternal glory! ⚔️✨
 ```
 
 ## 📂 Project Structure
