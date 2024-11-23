@@ -175,11 +175,14 @@ The arena erupts with cheers as Param claims eternal glory! ⚔️✨
 ## 📂 Project Structure
 
 ```plaintext
-magical-arena/
-├── Dice.java   # Dice rolling mechanics for randomization
-├── Player.java # Player stats and attack/defense logic
-├── Arena.java  # Game engine managing the battle logic
-└── Main.java   # Entry point of the game
+project_root/
+├── src/
+│   ├── Main.java
+│   └── com/
+│       └── magicalarena/
+│           ├── Arena.java
+│           ├── Dice.java
+│           └── Player.java
 ```
 
 ## 🛠️ Tech Stack
