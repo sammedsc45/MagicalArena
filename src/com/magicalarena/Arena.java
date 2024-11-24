@@ -1,14 +1,16 @@
 package com.magicalarena;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Arena {
     private Player playerA;
     private Player playerB;
     private final Dice dice;
+    private final Random random = new Random();
 
     private volatile boolean gameRunning = true;
-    private volatile long lastActionTime; // Tracks the time of the last action
+    private volatile long lastActionTime;
 
     public Arena() {
         this.dice = new Dice();
@@ -24,16 +26,14 @@ public class Arena {
             throw new IllegalStateException("Players must be initialized before starting the match.");
         }
 
-        System.out.println("\n=== Match starts between " + playerA.getName() +
-                " and " + playerB.getName() + "! ===\n");
+        System.out.println("\n🏟️ === The magical arena rumbles as " + playerA.getName() +
+                " and " + playerB.getName() + " enter the battlefield! === 🏟️\n");
 
-        System.out.println("Player 1: Press 's' to attack!");
-        System.out.println("Player 2: Press 'k' to attack!");
+        System.out.println("⚔️ Player 1: Press 's' to unleash your power!");
+        System.out.println("⚔️ Player 2: Press 'k' to strike your foe!\n");
 
-        // Record the starting time
         lastActionTime = System.currentTimeMillis();
 
-        // Start threads
         Thread inputThread = new Thread(this::listenForKeyPresses);
         Thread alertThread = new Thread(this::monitorInactivity);
 
@@ -43,7 +43,6 @@ public class Arena {
         inputThread.start();
         alertThread.start();
 
-        // Main game loop
         while (gameRunning) {
             if (!playerA.isAlive() || !playerB.isAlive()) {
                 gameRunning = false;
@@ -53,10 +52,47 @@ public class Arena {
         declareWinner();
     }
 
+    private String getRandomAttackMessage(Player attacker, Player defender, int damage) {
+        String[] messages = {
+                "🗡️ %s unleashes a mighty blow upon %s, dealing %d damage!",
+                "⚡ %s channels ancient magic against %s for %d devastating damage!",
+                "💥 With lightning speed, %s strikes %s for %d damage!",
+                "🔥 %s's powerful attack burns %s for %d damage!",
+                "⚔️ %s executes a perfect combat maneuver, hitting %s for %d damage!",
+                "✨ %s summons mystical energy, blasting %s for %d damage!",
+                "💫 %s performs a legendary technique against %s, dealing %d damage!",
+                "⭐ %s's masterful strike catches %s off guard for %d damage!"
+        };
+        return String.format(messages[random.nextInt(messages.length)],
+                attacker.getName(), defender.getName(), damage);
+    }
+
+    private String getRandomDefenseMessage(Player defender, int healthRemaining) {
+        if (healthRemaining <= 0) {
+            String[] fallMessages = {
+                    "💀 %s crumbles to the ground, defeated!",
+                    "⚰️ %s falls in glorious combat!",
+                    "🏴 %s's journey ends here...",
+                    "🌟 %s fought bravely, but could not withstand the assault!"
+            };
+            return String.format(fallMessages[random.nextInt(fallMessages.length)],
+                    defender.getName());
+        } else {
+            String[] survivalMessages = {
+                    "💪 %s stands strong with %d health remaining!",
+                    "🛡️ %s endures the assault, holding on with %d health!",
+                    "✨ %s maintains their ground, %d health points remain!",
+                    "⚔️ %s refuses to fall, continuing with %d health!"
+            };
+            return String.format(survivalMessages[random.nextInt(survivalMessages.length)],
+                    defender.getName(), healthRemaining);
+        }
+    }
+
     private void listenForKeyPresses() {
         try {
             while (gameRunning) {
-                if (System.in.available() > 0) { // Check if a key is pressed
+                if (System.in.available() > 0) {
                     int input = System.in.read();
                     char key = Character.toLowerCase((char) input);
 
@@ -83,13 +119,18 @@ public class Arena {
     private void monitorInactivity() {
         while (gameRunning) {
             try {
-                Thread.sleep(1); // Check every millisecond
+                Thread.sleep(1000);
                 long currentTime = System.currentTimeMillis();
 
-                // If no action for 1 second, alert the players
                 if (currentTime - lastActionTime > 1000) {
-                    System.out.println("\n⚠️ Don't just stand there! Player 1, press 's' or Player 2, press 'k' to attack! ⚠️");
-                    lastActionTime = currentTime; // Prevent spamming the message
+                    String[] taunts = {
+                            "\n⚠️ The crowd grows restless! Show them some action! ⚠️",
+                            "\n⚠️ Time for glory! Press your attack keys! ⚠️",
+                            "\n⚠️ The arena awaits your next move! ⚠️",
+                            "\n⚠️ Warriors, show us your strength! ⚠️"
+                    };
+                    System.out.println(taunts[random.nextInt(taunts.length)]);
+                    lastActionTime = currentTime;
                 }
             } catch (InterruptedException e) {
                 System.err.println("Error in inactivity monitor: " + e.getMessage());
@@ -103,31 +144,37 @@ public class Arena {
         defender.defend(dice, attackDamage);
         int damageDone = originalHealth - defender.getHealth();
 
-        System.out.println("\n" + attacker.getName() + " attacks " + defender.getName() +
-                " for " + damageDone + " damage!");
-        if (defender.isAlive()) {
-            System.out.println(defender.getName() + " has " + defender.getHealth() + " health remaining.");
-        } else {
-            System.out.println(defender.getName() + " has fallen!");
-        }
+        System.out.println("\n" + getRandomAttackMessage(attacker, defender, damageDone));
+        System.out.println(getRandomDefenseMessage(defender, defender.getHealth()));
     }
 
     private void printStats() {
-        System.out.println("\n=== Current Stats ===");
-        System.out.println(playerA.getName() + " - Health: " + playerA.getHealth());
-        System.out.println(playerB.getName() + " - Health: " + playerB.getHealth());
-        System.out.println("=====================\n");
+        System.out.println("\n🏰 === Battle Status === 🏰");
+        System.out.println("⚔️ " + playerA.getName() + " - Health: " + playerA.getHealth());
+        System.out.println("⚔️ " + playerB.getName() + " - Health: " + playerB.getHealth());
+        System.out.println("========================\n");
     }
 
     public void declareWinner() {
         Player winner = playerA.isAlive() ? playerA : playerB;
-        String winnerMessage = "\n=== " + winner.getName() + " emerges victorious! ===\n" +
-                "The arena erupts with cheers as " + winner.getName() +
-                " claims eternal glory! ⚔️✨";
-        System.out.println(winnerMessage);
+        String[] victoryMessages = {
+                "\n🎉 === %s claims a legendary victory! === 🎉\n" +
+                        "The crowd roars as %s stands triumphant in the arena! ⚔️✨",
+
+                "\n🏆 === Glory belongs to %s! === 🏆\n" +
+                        "The tales of %s's victory will echo through the ages! ⚔️✨",
+
+                "\n👑 === Champion %s rises! === 👑\n" +
+                        "Let it be known that %s conquered all challengers! ⚔️✨",
+
+                "\n⭐ === Victory for %s! === ⭐\n" +
+                        "Songs will be sung of %s's magnificent triumph! ⚔️✨"
+        };
+        String message = String.format(victoryMessages[random.nextInt(victoryMessages.length)],
+                winner.getName(), winner.getName());
+        System.out.println(message);
     }
 
-    // New methods for testability
     public Player getPlayerA() {
         return playerA;
     }
